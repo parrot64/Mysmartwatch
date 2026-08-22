@@ -1,0 +1,43 @@
+@startuml MenuLogicProposing
+start
+
+:
+enum MenuState
+
+BEGIN_MENUSTATE = 0,
+
+DISPLAY_TIME = BEGIN_MENUSTATE,
+DISPLAY_CHRONO,
+DISPLAY_SETTINGS,
+
+MAX_MENUSTATE
+; <<load>>
+
+partition setup() {
+:MenuState = 0;
+}
+
+partition ProcessButton() {
+if (ButtonPressed) then (true)
+  :MenuState = MenuState + 1;
+  if (MenuState == MAX_MENUSTATE) then
+    :MenuState = BEGIN_MENUSTATE;
+  endif
+endif
+}
+
+partition MenuChange() {
+
+switch (MenuState)
+case ( 0 )
+  :DisplayTime;
+case ( 1 ) 
+  :DisplayChrono;
+case ( 2 )
+  :DisplaySettings;
+endswitch
+
+}
+
+stop
+@enduml

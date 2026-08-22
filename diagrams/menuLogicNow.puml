@@ -1,0 +1,35 @@
+@startuml MenuLogicNow
+start
+
+partition setup() {
+:MenuState = 0;
+}
+
+partition MenuChange(){
+
+  switch (MenuState)
+    case ( 0 )
+      :DisplayTime;
+      partition DisplayTime() {
+        if (ButtonPressed) then (true)
+          :MenuState = 1;
+        endif
+      }
+
+case ( 1 ) 
+  :DisplayChrono;
+  if (ButtonPressed) then (true)
+    :MenuState = 2;
+  endif
+case ( 2 )
+  :DisplaySettings;
+  if (ButtonPressed) then (true)
+    :MenuState = 0;
+  endif
+endswitch
+
+}
+
+
+stop
+@enduml

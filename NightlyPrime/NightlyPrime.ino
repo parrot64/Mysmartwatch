@@ -18,6 +18,15 @@ int Minutes;
 int Seconds;
 int Millis;
 
+enum MenuState
+{
+    DISPLAY_TIME,
+    DISPLAY_CHRONO,
+    DISPLAY_SETTINGS,
+
+    MAX_MENUSTATE
+}
+
 void displayChrono()
 {
     display.clearDisplay();
@@ -55,34 +64,10 @@ void displayChrono()
     display.setCursor(69,50);
     display.print(ChronoMillis,10);
 
-    if (ChronoMillis >= 1000)
-    {
-        ChronoSecond = ChronoSecond + 1;
-        ChronoMillis = 0;
-    }
-
-        if (ChronoSecond >= 60)
-    {
-        ChronoMinute = ChronoMinute + 1;
-        ChronoSecond = 0;
-    }
-
-        if (ChronoMinute >= 60)
-    {
-        ChronoHour = ChronoHour + 1;
-        ChronoMinute = 0;
-    }
-
-        if (ChronoHour >= 99)
-    {
-        Serial.println("OVERFLOW ERROR");
-        ChronoHour = 0;
-    }
-
     buttonState = digitalRead(buttonPin);
 
     if (buttonState == LOW) { // LOW means pressed
-        MenuState = 0;
+        MenuState = MENU_TIME;
         delay(200); // Simple debounce delay
     }
 
@@ -94,19 +79,42 @@ void ChronoTick()
     NewMillis = millis();
     ChronoMillis =  ChronoMillis +(NewMillis - OldMillis);
     OldMillis = NewMillis;
+
+    if (ChronoMillis >= 1000)
+    {
+        ChronoSecond = ChronoSecond + 1;
+        ChronoMillis = 0;
+    }
+
+    if (ChronoSecond >= 60)
+    {
+        ChronoMinute = ChronoMinute + 1;
+        ChronoSecond = 0;
+    }
+
+    if (ChronoMinute >= 60)
+    {
+        ChronoHour = ChronoHour + 1;
+        ChronoMinute = 0;
+    }
+
+    if (ChronoHour >= 99)
+    {
+        Serial.println("OVERFLOW ERROR");
+        ChronoHour = 0;
+    }
 }
 
 void MenuChange()
 {
-
     if (MenuState == 0)
     {
         displayTime();
-    } else 
+    }
+    else 
     {
         displayChrono();
     }
-
 }
 
 void displayTime()
@@ -147,7 +155,6 @@ void displayTime()
     }
 
     display.display();
-
 }
 
 void setup() 
@@ -165,12 +172,7 @@ void setup()
 
 void loop() 
 {
-    // Serial.print("Current time: ");
-    // Serial.print(h);
-    // Serial.print(":");
-    // Serial.print(m);
-    // Serial.print(":");
-    // Serial.println(s);
+    ChronoTick();
     MenuChange();
     Serial.println(NewMillis);
 }
