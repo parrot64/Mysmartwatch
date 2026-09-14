@@ -3,17 +3,24 @@
 #include <Adafruit_SSD1306.h>
 #include <TimeLib.h>
 #include <ezButton.h>
+
 #define OLED_RESET     -1
 #define CLK_PIN 2
 #define DT_PIN 3
 #define SW_PIN 4
 #define DIRECTION_CW 0  // clockwise direction
 #define DIRECTION_CCW 1 // counter-clockwise direction
+
 Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
+
 ezButton button(SW_PIN); // create ezButton object for pin 7;
+
 unsigned long OldMillis;
 unsigned long NewMillis;
+
+// TODO: const -> #define
 const int buttonPin = 2;
+
 int buttonState = 0;
 int MenuState = 0;
 int ChronoHour = 0;
@@ -159,8 +166,10 @@ void displayTime()
     display.setCursor(52,50);
     display.print(Seconds,10);
 
+    // TODO: is buttonState used?
     buttonState = digitalRead(buttonPin);
 
+    // TODO: separate displaying logic and controling logic
     if (button.isPressed())
     {
         MenuState = 1;
@@ -197,8 +206,10 @@ void loop()
 
 
 
+// TODO: Function name should describe what this function do
 void ButtonEncoderChange()
 {
+    // TODO: dont mix button logic and encoder logic
      button.loop(); // MUST call the loop() function first
 
      // read the current state of the rotary encoder's CLK pin
@@ -222,6 +233,7 @@ void ButtonEncoderChange()
              direction = DIRECTION_CW;
          }
 
+// TODO: No Serial.print should be in loop while reading encoder
          Serial.print("Rotary Encoder:: direction: ");
          if (direction == DIRECTION_CW)
              Serial.print("Clockwise");

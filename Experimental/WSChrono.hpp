@@ -14,6 +14,11 @@ public:
 
     void tick() override;
     void display() override;
+    void reset() override;
+
+    void encoderDidClick() override;
+    void encoderDidUp() override;
+    void encoderDidDown() override;
 
 private:
     Adafruit_SSD1306 *oledDisplay;
@@ -22,7 +27,6 @@ private:
     int ChronoMinute;
     int ChronoSecond;
     int ChronoMillis;
-    int NowMillis;
     int CurrentMillis;
     int OldMillis;
     int Hours;
