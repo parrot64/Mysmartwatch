@@ -15,10 +15,29 @@ public:
     void tick() override;
     void display() override;
 
+    void encoderDidClick() override;
+    void encoderDidUp() override;
+    void encoderDidDown() override;
+
 private:
     Adafruit_SSD1306 *oledDisplay;
+
+    enum Selection
+    { 
+        NONE, 
+        HOURS, 
+        MINUTES, 
+
+        MAX_SELECTION
+    };
+
+    Selection currentSelection;
 
     int hours;
     int minutes;
     int seconds;
+
+    bool isVisible;
+
+    void displayBlinked(int aValue);
 };

@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-nano", "id": "nano", "top": -110.4, "left": -58.1, "attrs": {} },
+    {
+      "type": "board-ssd1306",
+      "id": "oled1",
+      "top": 31.94,
+      "left": 19.43,
+      "attrs": { "i2cAddress": "0x3c" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": 19.1,
+      "left": -73.3,
+      "rotate": 90,
+      "attrs": { "color": "green", "xray": "1" }
+    },
+    { "type": "wokwi-ky-040", "id": "encoder1", "top": -228.7, "left": -116, "attrs": {} }
+  ],
+  "connections": [
+    [ "oled1:GND", "nano:GND.1", "black", [ "v0" ] ],
+    [ "oled1:SDA", "nano:A4", "green", [ "v0" ] ],
+    [ "oled1:VCC", "nano:5V", "red", [ "v0" ] ],
+    [ "oled1:SCL", "nano:A5", "green", [ "v0" ] ],
+    [ "btn1:1.l", "nano:GND.2", "black", [ "v0" ] ],
+    [ "encoder1:GND", "nano:GND.1", "black", [ "h0" ] ],
+    [ "encoder1:VCC", "nano:5V", "red", [ "h0" ] ],
+    [ "btn1:2.l", "nano:4", "green", [ "v0" ] ],
+    [ "encoder1:SW", "nano:5", "green", [ "h0" ] ],
+    [ "encoder1:CLK", "nano:2", "green", [ "h0" ] ],
+    [ "encoder1:DT", "nano:3", "green", [ "h0" ] ]
+  ],
+  "dependencies": {}
+}
